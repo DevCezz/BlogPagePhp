@@ -6,6 +6,11 @@ i.icon {
     margin-top: 7em;
 }
 
+.textCenter {
+    text-align: center;
+    text-indent: 3em;
+}
+
 .blogContent {
     text-align: justify;
     text-indent: 3em;

@@ -34,7 +34,7 @@
         usuwania wpisów. Może także edytować i usuwać istniejących użytkowników w systemie. Odwiedzający stronę bez logowania może tylko przeglądać 
         istniejące wpisy.</p>
 
-        <footer>Cezary Sanecki, s251957</footer>
+        <p>Cezary Sanecki, s251957</p>
 
         <?php
             require('footer.inc.php');
