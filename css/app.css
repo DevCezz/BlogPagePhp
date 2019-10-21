@@ -15,3 +15,7 @@ i.icon {
     text-align: justify;
     text-indent: 3em;
 }
+
+.fullWidth {
+    width: 100%;
+}

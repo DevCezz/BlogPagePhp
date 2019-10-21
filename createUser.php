@@ -5,10 +5,12 @@
 ?>
 
 <div class="ui main text container">
-    <form class="ui form">
+    <h1 class="ui header textCenter">Załóż konto</h1>
+
+    <form class="ui form" role="form" action="processCreateUser.php" onsubmit="return validateRegisterForm(this)" method="post">
         <div class="field">
-            <label>Nazwa Użytownika</label>
-            <input type="text" name="username" placeholder="Nazwa Użytownika">
+            <label>Nazwa Użytkownika</label>
+            <input type="text" name="username" placeholder="Nazwa Użytkownika">
         </div>
         <div class="field">
             <label>Hasło</label>
@@ -16,13 +18,13 @@
         </div>
         <div class="field">
             <label>Powtórz hasło</label>
-            <input type="password" name="repeated_password" placeholder="Powtórz hasło">
+            <input type="password" name="repeatedPassword" placeholder="Powtórz hasło">
         </div>
         <div class="field">
             <label>Email</label>
             <input type="text" name="email" placeholder="Email">
         </div>
-        <button class="ui violet basic button" type="submit">Utwórz konto</button>
+        <button class="ui violet basic button fullWidth" type="submit">Utwórz konto</button>
     </form>
 
     <?php

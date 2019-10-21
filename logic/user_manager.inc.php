@@ -4,7 +4,7 @@
     class UserManager {
         private $dbConn;
 
-        public function UserManager() {
+        public function __construct() {
             $dbConn = DbConn::getConnection();
         }
 
