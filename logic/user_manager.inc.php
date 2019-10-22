@@ -2,12 +2,6 @@
     require_once('db_conn.inc.php');
 
     class UserManager {
-        private $dbConn;
-
-        public function __construct() {
-            $this->dbConn = new DbConn();
-        }
-
         public function createUser($userName, $userPassword, $repeatedUserPassword, $userEmail) {
             if($userName == '' or $userPassword == '' or $repeatedUserPassword == '' or $userEmail == '') {
                 throw new Exception('Nie podano wszystkich danych wejściowych przy tworzeniu konta.');
@@ -17,7 +11,7 @@
                 throw new Exception('Podane hasła są różne.');
             }
 
-            $connection = $this->dbConn->getConnection();
+            $connection = DBConn::getConnection();
 
             $checkedUserName = $connection->real_escape_string($userName);
             $checkedUserEmail = $connection->real_escape_string($userEmail);
@@ -47,7 +41,7 @@
         }
 
         private function checkIfUserExists($checkedUserName) {
-            $connection = $this->dbConn->getConnection();
+            $connection = DBConn::getConnection();
 
             $selectUserByUsernameQuery = "SELECT * FROM `user` WHERE username = '$checkedUserName'";
             $result = $connection->query($selectUserByUsernameQuery);
