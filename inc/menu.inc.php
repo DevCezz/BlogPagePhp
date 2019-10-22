@@ -1,5 +1,5 @@
 <?php
-    require_once('logic/user_manager.inc.php');
+    require_once('logic/userManager.inc.php');
 ?>
 <div class="ui fixed inverted menu">
     <div class="ui container">
@@ -10,7 +10,8 @@
 
         <div class="right menu">
             <?php
-                echo "<a class=\"item\" href=\"createUser.php\">Rejestracja</a>"
+                echo "<a class=\"item\" href=\"createUser.php\">Rejestracja</a>";
+                echo "<a class=\"item\" href=\"login.php\">Zaloguj</a>";
             ?>
         </div>
     </div>

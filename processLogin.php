@@ -3,16 +3,13 @@
 
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
-    $repeatedUserPassword = isset($_POST['repeatedPassword']) ? $_POST['repeatedPassword'] : '';
-    $userEmail = isset($_POST['email']) ? $_POST['email'] : '';
 
     try {
         $userManager = new UserManager();
-        $result = $userManager->createUser($username, $userPassword, $repeatedUserPassword, $userEmail);
+        $result = $userManager->login($username, $userPassword);
 
         if (!$result) {
-            $errorMessage = "Użytkownik \"$username\" już istnieje w bazie danych. Należy wybrać inną nazwę użytkownika.<br>
-                <a href=\"createUser.php\"> ZAŁÓŻ NOWE KONTO</a>";
+            $errorMessage = "Podane dane są niepoprawne";
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -30,7 +27,7 @@
             if (isset($errorMessage)) {
                 echo $errorMessage;
             } else {
-                echo "Rejestracja użytkownika przebiegła pomyślnie.<br><a href=\"login.php\">ZALOGUJ SIĘ</a>";
+                echo "Pomyślnie zalogowano do serwisu. Witamy!";
             }
         ?>
     </p>

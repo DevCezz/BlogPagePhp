@@ -1,6 +1,6 @@
 create table user (
 	`id` int not null AUTO_INCREMENT,
-	`username` varchar(50) not null,
+	`user_name` varchar(50) not null,
 	`password` varchar(50) not null,
 	`email`  varchar(50) not null,
 	PRIMARY KEY (`id`)
