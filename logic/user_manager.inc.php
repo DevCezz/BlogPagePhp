@@ -5,7 +5,7 @@
         private $dbConn;
 
         public function __construct() {
-            $dbConn = DbConn::getConnection();
+            $this->dbConn = new DbConn();
         }
 
         public function createUser($userName, $userPassword, $repeatedUserPassword, $userEmail) {
@@ -17,8 +17,10 @@
                 throw new Exception('Podane hasła są różne.');
             }
 
-            $checkedUserName = $dbConn->real_escape_string($userName);
-            $checkedUserEmail = $dbConn->real_escape_string($userEmail);
+            $connection = $this->dbConn->getConnection();
+
+            $checkedUserName = $connection->real_escape_string($userName);
+            $checkedUserEmail = $connection->real_escape_string($userEmail);
             $userPasswordMD5 = md5($userPassword);
 
             try {
@@ -27,26 +29,28 @@
                 }
 
                 $insertUserQuery = "INSERT INTO user(`username`, `password`, `email`) values ('$checkedUserName', '$userPasswordMD5', '$checkedUserEmail')";
-                $result = $dbConn->query($insertUserQuery);
+                $result = $connection->query($insertUserQuery);
 
                 if($result === FALSE) {
                     throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
                 }
             } catch(Exception $exeption) {
-                if(isset($dbConn)) {
-                    $dbConn->close();
+                if(isset($connection)) {
+                    $connection->close();
                 }
 
                 throw $exeption;
             }
 
-            $dbConn->close();
+            $connection->close();
             return TRUE;
         }
 
         private function checkIfUserExists($checkedUserName) {
+            $connection = $this->dbConn->getConnection();
+
             $selectUserByUsernameQuery = "SELECT * FROM `user` WHERE username = '$checkedUserName'";
-            $result = $dbConn->query($selectUserByUsernameQuery);
+            $result = $connection->query($selectUserByUsernameQuery);
 
             if ($result === FALSE) {
                 throw new Excepton("Zapytanie do bazy danych nie powiodło się.");

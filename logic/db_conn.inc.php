@@ -1,18 +1,22 @@
 <?php
     class DbConn {
-        public static function getConnection() {
-            $host = "127.0.0.1";
-            $db_user = "root";
-            $db_password = "root";
-            $db_name = "csanecki_blog";
-    
-            $connection = new mysqli($host, $db_user, $db_password, $db_name);
-    
+        private $host = "127.0.0.1";
+        private $db_user = "root";
+        private $db_password = "root";
+        private $db_name = "csanecki_blog";
+
+        private $connection;
+
+        public function __construct() {
+            $this->connection = new mysqli($this->host, $this->db_user, $this->db_password, $this->db_name);
+
             if (mysqli_connect_errno() != 0) {
                 throw new Exception('Nie udało się nawiązać połączenia.');
             }
-    
-            return $connection;
+        }
+
+        public function getConnection() {    
+            return $this->connection;
         }
     }
 ?>
