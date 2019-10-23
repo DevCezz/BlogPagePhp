@@ -3,7 +3,7 @@
 
     require_once('logic/userManager.inc.php');
     
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $username = isset($_POST['userName']) ? $_POST['userName'] : '';
     $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
 
     try {

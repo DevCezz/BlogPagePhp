@@ -8,10 +8,10 @@
 <div class="ui main text container">
     <h1 class="ui header textCenter">Załóż konto</h1>
 
-    <form class="ui form" role="form" action="processCreateUser.php" onsubmit="return validateRegisterForm(this)" method="post">
+    <form class="ui form" role="form" action="processCreateUser.php" onsubmit="return validateCreateUserForm(this)" method="post">
         <div class="field">
             <label>Nazwa Użytkownika</label>
-            <input type="text" name="username" placeholder="Nazwa Użytkownika">
+            <input type="text" name="userName" placeholder="Nazwa Użytkownika">
         </div>
         <div class="field">
             <label>Hasło</label>
@@ -24,6 +24,10 @@
         <div class="field">
             <label>Email</label>
             <input type="text" name="email" placeholder="Email">
+        </div>
+
+        <div class="textCenter errorDiv">
+            <span id="errorMessage"></span>
         </div>
         <button class="ui violet basic button fullWidth" type="submit">Utwórz konto</button>
     </form>

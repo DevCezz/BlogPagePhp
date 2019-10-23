@@ -11,11 +11,15 @@
     <form class="ui form" role="form" action="processLogin.php" onsubmit="return validateLoginForm(this)" method="post">
         <div class="field">
             <label>Nazwa Użytkownika</label>
-            <input type="text" name="username" placeholder="Nazwa Użytkownika">
+            <input type="text" name="userName" placeholder="Nazwa Użytkownika">
         </div>
         <div class="field">
             <label>Hasło</label>
             <input type="password" name="password" placeholder="Hasło">
+        </div>
+        
+        <div class="textCenter errorDiv">
+            <span id="errorMessage"></span>
         </div>
         <button class="ui violet basic button fullWidth" type="submit">Zaloguj</button>
     </form>

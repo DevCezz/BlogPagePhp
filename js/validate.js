@@ -1,0 +1,56 @@
+function validateCreateUserForm(form) {
+    var userName = form.userName.value;
+    var password = form.password.value;
+    var repeatedPassword = form.repeatedPassword.value;
+    var email = form.email.value;
+    var errorSpan = document.getElementById("errorMessage");
+
+    if (isEmpty(userName) || isEmpty(password) || isEmpty(repeatedPassword) || isEmpty(email)) {
+        errorSpan.innerHTML = "Nie wypełniono wszystkich pól!";
+        return false;
+    }
+
+    if (!validUserName(userName)) {
+        errorSpan.innerHTML = "Nazwa użytkownia może składać się tylko ze znaków alfanumerycznych!";
+        return false;
+    }
+
+    if (password !== repeatedPassword) {
+        errorSpan.innerHTML = "Podane hasła nie pasują do siebie!";
+        return false;
+    }
+
+    if (!validEmail(email)) {
+        errorSpan.innerHTML = "Adres email jest nieprawidłowy!";
+        return false;
+    }
+
+    return true;
+}
+
+function validateLoginForm(form) {
+    var userName = form.userName.value;
+    var password = form.password.value;
+    var errorSpan = document.getElementById("errorMessage");
+
+    if (isEmpty(userName) || isEmpty(password)) {
+        errorSpan.innerHTML = "Nie wypełniono wszystkich pól!";
+        return false;
+    }
+
+    return true;
+}
+
+function isEmpty(string) {
+    return (!string || 0 === string.length);
+}
+
+function validUserName(userName) {
+    regex = /^\w+$/;
+    return regex.test(userName);
+}
+
+function validEmail(mail) {
+    regex = /^\w+@[a-zA-Z]+\.[a-zA-Z]+$/;
+    return regex.test(mail);
+}

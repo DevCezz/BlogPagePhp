@@ -41,8 +41,16 @@
                 throw new Exception('Nie podano wszystkich danych wejściowych przy tworzeniu konta.');
             }
 
+            if(!preg_match('/^\w+$/', $userName)) {
+                throw new Exception('Nazwa użytkownika może się składać tylko ze znaków alfanumerycznych.');
+            }
+
             if($userPassword != $repeatedUserPassword) {
                 throw new Exception('Podane hasła są różne.');
+            }
+
+            if(!preg_match('/^\w+@[a-zA-Z]+\.[a-zA-Z]+$/', $userEmail)) {
+                throw new Exception('Podany adres email jest nieprawidłowy.');
             }
 
             $connection = DBConn::getConnection();
@@ -83,6 +91,7 @@
             $result = $connection->query($selectUserByUserNameQuery);
 
             if ($result === FALSE) {
+                $connection->close();
                 throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
             }
                 
@@ -93,6 +102,8 @@
             }
 
             $result->close();
+            $connection->close();
+            
             return $userExists;
         }
 
@@ -194,6 +205,29 @@
             if($result === FALSE) {
                 throw new Exception("Zapytanie do bazy danych nie powiodło się.");
             }
+        }
+
+        public function getAllUsers() {
+            $connection = DBConn::getConnection();
+
+            $selectAllUsersQuery = "SELECT * FROM `user`";
+            $result = $connection->query($selectAllUsersQuery);
+
+            if ($result === FALSE) {
+                $connection-close();
+                throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+            }
+            
+            $users = array();
+            while ($row = $result->fetch_assoc()) {
+                $users[$row['id']]['user_name'] = $row['user_name'];
+                $users[$row['id']]['email'] = $row['email'];
+            }
+
+            $result->close();
+            $connection->close();
+
+            return $users;
         }
     }
 ?>

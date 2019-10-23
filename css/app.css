@@ -8,7 +8,6 @@ i.icon {
 
 .textCenter {
     text-align: center;
-    text-indent: 3em;
 }
 
 .blogContent {
@@ -18,4 +17,13 @@ i.icon {
 
 .fullWidth {
     width: 100%;
+}
+
+.errorDiv {
+    margin-bottom: 15px;
+}
+
+#errorMessage {
+    color: red;
+    font-size: 1.2em;
 }
