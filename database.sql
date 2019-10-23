@@ -23,7 +23,7 @@ CREATE TABLE logged_user (
 	FOREIGN KEY(`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO user(`username`, `password`, `email`) VALUES
+INSERT INTO user(`user_name`, `password`, `email`) VALUES
 ('user1', MD5('12345'), 'user1@mail.com'),
 ('user2', MD5('12345'), 'user2@mail.com');
 

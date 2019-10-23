@@ -2,6 +2,40 @@
     require_once('dbConn.inc.php');
 
     class UserManager {
+        public function checkIfUserIsLoggedIn($sessionId) {
+            $connection = DBConn::getConnection();
+
+            try {
+                $checkedSessionId = $connection->real_escape_string($sessionId);
+
+                $selectLogUserQuery = "SELECT `user_name` FROM `logged_user` lu INNER JOIN `user` u ON u.`id`=lu.`user_id` WHERE `session_id` = '$checkedSessionId'";
+                $result = $connection->query($selectLogUserQuery);
+
+                if($result === FALSE) {
+                    $connection->close();
+                    throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                }
+
+                if (($row = $result->fetch_assoc()) === NULL) {
+                    $loggedUserName = null;
+                } else {
+                    $loggedUserName = $row['user_name'];
+                }
+
+            } catch(Exception $exeption) {
+                if(isset($connection)) {
+                    $connection->close();
+                }
+
+                throw $exeption;
+            }
+
+            $result->close();
+            $connection->close();
+
+            return $loggedUserName;
+        }
+
         public function createUser($userName, $userPassword, $repeatedUserPassword, $userEmail) {
             if($userName == '' or $userPassword == '' or $repeatedUserPassword == '' or $userEmail == '') {
                 throw new Exception('Nie podano wszystkich danych wejściowych przy tworzeniu konta.');
@@ -19,6 +53,7 @@
 
             try {
                 if($this->checkIfUserExists($checkedUserName)) {
+                    $connection->close();
                     return FALSE;
                 }
 
@@ -26,6 +61,7 @@
                 $result = $connection->query($insertUserQuery);
 
                 if($result === FALSE) {
+                    $connection->close();
                     throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
                 }
             } catch(Exception $exeption) {
@@ -51,10 +87,13 @@
             }
                 
             if (($row = $result->fetch_assoc()) === NULL) {
-                return FALSE;
+                $userExists = FALSE;
             } else {
-                return TRUE;
+                $userExists = TRUE;
             }
+
+            $result->close();
+            return $userExists;
         }
 
         public function login($userName, $userPassword) {
@@ -87,22 +126,54 @@
             $result = $connection->query($selectLoginQuery);
 
             if ($result === FALSE) {
+                $connection->close();
                 throw new Exception("Zapytanie do bazy danych nie powiodło się.");
             }
-                
+            
             if (($row = $result->fetch_assoc()) === NULL) {
-                return FALSE;
+                $isChecked = FALSE;
             } else {
-                return TRUE;
+                $isChecked = TRUE;
             }
+
+            $result->close();
+            $connection->close();
+
+            return $isChecked;
+        }
+
+        public function logout() {
+            $connection = DBConn::getConnection();
+
+            try {
+                $checkedSessionId = $connection->real_escape_string(session_id());
+                $deleteLoggedUserQuery = "DELETE FROM `logged_user` WHERE `session_id` = '$checkedSessionId'";
+                $result = $connection->query($deleteLoggedUserQuery);
+
+                if ($result === FALSE) {
+                    $connection->close();
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+            } catch(Exception $exeption) {
+                $connection->close();
+                throw $exeption;
+            }
+
+            $connection->close();
         }
 
         private function setUserLog($userName) {
             $connection = DBConn::getConnection();  
             $checkedUserName = $connection->real_escape_string($userName);
 
-            $this->deleteUserLogEntry($checkedUserName, $connection);
-            $this->insertUserLogEntry($checkedUserName, $connection);
+            try {
+                $this->deleteUserLogEntry($checkedUserName, $connection);
+                $this->insertUserLogEntry($checkedUserName, $connection);
+            } catch(Exception $exeption) {
+                $connection->close();
+
+                throw $exeption;
+            }
         }
 
         private function deleteUserLogEntry($checkedUserName, $connection) {

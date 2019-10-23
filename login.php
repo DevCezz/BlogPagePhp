@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     require('inc/header.inc.php');
     require('inc/menu.inc.php');
 ?>

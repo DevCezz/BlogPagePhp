@@ -3,15 +3,14 @@
 
     require_once('logic/userManager.inc.php');
     
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
-    $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
-
     try {
         $userManager = new UserManager();
-        $result = $userManager->login($username, $userPassword);
+        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
 
-        if (!$result) {
-            $errorMessage = "Podane dane są niepoprawne.";
+        if (is_null($loggedUserName)) {
+            $errorMessage = "Brak możliwość wylogowania niezalogowanego użytkownika.";
+        } else {
+            $userManager->logout();
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -29,7 +28,7 @@
             if (isset($errorMessage)) {
                 echo $errorMessage;
             } else {
-                echo "Pomyślnie zalogowano do serwisu. Witamy!";
+                echo "Pomyślnie wylogowano z serwisu!";
             }
         ?>
     </p>
