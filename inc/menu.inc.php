@@ -16,7 +16,7 @@
 
         <?php
             if(!is_null($loggedUserName)) {
-                echo "<a class=\"item\" href=\"\">Dodaj post</a>";
+                echo "<a class=\"item\" href=\"createPost.php\"\">Dodaj post</a>";
             }
         ?>
 

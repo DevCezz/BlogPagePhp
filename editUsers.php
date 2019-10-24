@@ -2,9 +2,15 @@
     session_start();
 
     require_once('logic/userManager.inc.php');
+    require_once('logic/redirect.inc.php');
 
     try {
         $userManager = new UserManager();
+        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
+        if(is_null($loggedUserName)) {
+            RedirectHandler::redirect('/', false);
+        }
+
         $users = $userManager->getAllUsers();
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();

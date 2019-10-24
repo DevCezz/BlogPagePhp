@@ -13,7 +13,7 @@
 
                 if($result === FALSE) {
                     $connection->close();
-                    throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
                 }
 
                 if (($row = $result->fetch_assoc()) === NULL) {
@@ -65,12 +65,12 @@
                     return FALSE;
                 }
 
-                $insertUserQuery = "INSERT INTO `user`(`user_name`, `password`, `email`) values ('$checkedUserName', '$userPasswordMD5', '$checkedUserEmail')";
+                $insertUserQuery = "INSERT INTO `user`(`user_name`, `password`, `email`) VALUES ('$checkedUserName', '$userPasswordMD5', '$checkedUserEmail')";
                 $result = $connection->query($insertUserQuery);
 
                 if($result === FALSE) {
                     $connection->close();
-                    throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
                 }
             } catch(Exception $exeption) {
                 if(isset($connection)) {
@@ -92,7 +92,7 @@
 
             if ($result === FALSE) {
                 $connection->close();
-                throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                throw new Exception("Zapytanie do bazy danych nie powiodło się.");
             }
                 
             if (($row = $result->fetch_assoc()) === NULL) {
@@ -215,7 +215,7 @@
 
             if ($result === FALSE) {
                 $connection-close();
-                throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                throw new Exception("Zapytanie do bazy danych nie powiodło się.");
             }
             
             $users = array();
@@ -233,12 +233,13 @@
         public function getAllPosts() {
             $connection = DBConn::getConnection();
 
-            $selectAllPostsQuery = "SELECT * FROM `post` p INNER JOIN `user` u ON u.`id`=p.`user_id`";
+            $selectAllPostsQuery = "SELECT p.`id`, u.`user_name`, p.`title`, p.`content`, p.`modification_date` FROM `post` p INNER JOIN `user` u 
+                ON u.`id`=p.`user_id` ORDER BY p.`modification_date` DESC";
             $result = $connection->query($selectAllPostsQuery);
 
             if ($result === FALSE) {
                 $connection-close();
-                throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+                throw new Exception("Zapytanie do bazy danych nie powiodło się.");
             }
             
             $posts = array();
@@ -253,6 +254,56 @@
             $connection->close();
 
             return $posts;
+        }
+
+        public function createPost($title, $content, $sessionId) {
+            if($title == '' or $content == '') {
+                throw new Exception('Wszystkie dane muszą być wypełnione.');
+            }
+
+            $connection = DBConn::getConnection();
+
+            $checkTitle = $connection->real_escape_string($title);
+            $checkedContent = $connection->real_escape_string($content);
+
+            try {
+                $loggedUserName = $this->checkIfUserIsLoggedIn($sessionId);
+
+                if(is_null($loggedUserName)) {
+                    throw new Exception("Jesteś niezalogowany, więc nie możesz dodać postu.");
+                }
+
+                $selectUserIdByUserNameQuery = "SELECT `id` FROM `user` WHERE `user_name` = '$loggedUserName'";
+                $result = $connection->query($selectUserIdByUserNameQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+
+                if (($row = $result->fetch_assoc()) === NULL) {
+                    throw new Exception("Nie znaleziono takiego id użytkownika dla nazwy użytkownika '$loggedUserName'.");
+                } else {
+                    $loggedUserId = $row['id'];
+                }
+
+                $insertPostQuery = "INSERT INTO `post`(`user_id`, `title`, `content`) VALUES ($loggedUserId, '$checkTitle', '$checkedContent')";
+                $result = $connection->query($insertPostQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                } else {
+                    $postId = $connection->insert_id;
+                }
+            } catch(Exception $exeption) {
+                if(isset($connection)) {
+                    $connection->close();
+                }
+
+                throw $exeption;
+            }
+
+            $connection->close();
+            return $postId;
         }
     }
 ?>

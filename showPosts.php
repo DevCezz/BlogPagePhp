@@ -16,25 +16,23 @@
 ?>
 
 <div class="ui main text container">
-    <h1 class="ui header textCenter">Posty</h1>
+    <h1 class="ui huge header textCenter">Posty</h1>
 
     <div class="ui top attached segment">
         <div class="ui divided items">
             <?php foreach (array_keys($posts) as $id) { ?>
                 <div class="item">
                     <div class="content">
-                        <h1><?php echo $posts[$id]['title']; ?></h1>
-                        <h4><?php echo $posts[$id]['user_name']; ?></h4>
-                        <div class="met">
-                            <span><?php echo $posts[$id]['content']; ?></span>
-                        </div>
+                        <h1 class="ui large header"><?php echo $posts[$id]['title']; ?></h1>
                         <div class="description">
-                            <p><?php echo $posts[$id]['modification_date']; ?></p>
+                            <?php echo $posts[$id]['content']; ?>
                         </div>
+                        <div class="extra"><?php echo $posts[$id]['modification_date'] . ' | <strong>' . $posts[$id]['user_name'] . '</strong>'; ?></div>
+
                         <?php
                             if(!is_null($loggedUserName)) {
                                 echo <<<HTML
-                                    <div class="sm-t">
+                                    <div class="sm-t button-right">
                                         <button class="ui compact red button">Usuń</button>
                                         <button class="ui compact yellow button">Edytuj</button>
                                     </div>

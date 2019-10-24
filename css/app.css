@@ -31,3 +31,25 @@ i.icon {
     color: red;
     font-size: 1.2em;
 }
+
+.ui.items>.item>.content>.header {
+    display: block;
+    text-align: center;
+}
+
+.ui.items>.item>.content {
+    padding: 15px;
+}
+
+.item .description p {
+    text-align: justify;
+    text-indent: 3em;
+}
+
+.button-right button {
+    float: right;
+}
+
+.ui.form textarea {
+    resize: none;
+}
