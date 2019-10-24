@@ -229,5 +229,30 @@
 
             return $users;
         }
+
+        public function getAllPosts() {
+            $connection = DBConn::getConnection();
+
+            $selectAllPostsQuery = "SELECT * FROM `post` p INNER JOIN `user` u ON u.`id`=p.`user_id`";
+            $result = $connection->query($selectAllPostsQuery);
+
+            if ($result === FALSE) {
+                $connection-close();
+                throw new Excepton("Zapytanie do bazy danych nie powiodło się.");
+            }
+            
+            $posts = array();
+            while ($row = $result->fetch_assoc()) {
+                $posts[$row['id']]['user_name'] = $row['user_name'];
+                $posts[$row['id']]['title'] = $row['title'];
+                $posts[$row['id']]['content'] = $row['content'];
+                $posts[$row['id']]['modification_date'] = $row['modification_date'];
+            }
+
+            $result->close();
+            $connection->close();
+
+            return $posts;
+        }
     }
 ?>

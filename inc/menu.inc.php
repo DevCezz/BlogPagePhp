@@ -12,8 +12,13 @@
     <div class="ui container">
         <div class="header item"><i class="keyboard outline icon"></i> Blog ZAI</div>
         <a href="/" class="item">Opis projektu</a>
-        <a href="/posts" class="item">Posty</a>
-        <a href="/posts/new" class="item">Dodaj post</a>
+        <a href="showPosts.php" class="item">Posty</a>
+
+        <?php
+            if(!is_null($loggedUserName)) {
+                echo "<a class=\"item\" href=\"\">Dodaj post</a>";
+            }
+        ?>
 
         <div class="right menu">
             <?php

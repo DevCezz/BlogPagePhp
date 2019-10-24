@@ -23,6 +23,10 @@ i.icon {
     margin-bottom: 15px;
 }
 
+.sm-t {
+    margin-top: 10px;
+}
+
 #errorMessage {
     color: red;
     font-size: 1.2em;
