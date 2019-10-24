@@ -30,7 +30,9 @@
             if (isset($errorMessage)) {
                 echo $errorMessage;
             } else {
-                echo "Dodanie postu przebiegło pomyślnie.<br><a href=\"showPosts.php\">Zobacz wszystkie posty</a>";
+                echo <<<HTML
+                    Dodanie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>";
+                HTML;
             }
         ?>
     </p>

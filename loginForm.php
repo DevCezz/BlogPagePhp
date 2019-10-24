@@ -8,7 +8,7 @@
 <div class="ui main text container">
     <h1 class="ui header textCenter">Zaloguj się</h1>
 
-    <form class="ui form" role="form" action="processLogin.php" onsubmit="return validateLoginForm(this)" method="post">
+    <form class="ui form" role="form" action="loginProcess.php" onsubmit="return validateLoginForm(this)" method="post">
         <div class="field">
             <label>Nazwa Użytkownika</label>
             <input type="text" name="userName" placeholder="Nazwa Użytkownika">

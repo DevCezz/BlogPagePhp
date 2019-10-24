@@ -12,23 +12,29 @@
     <div class="ui container">
         <div class="header item"><i class="keyboard outline icon"></i> Blog ZAI</div>
         <a href="/" class="item">Opis projektu</a>
-        <a href="showPosts.php" class="item">Posty</a>
+        <a href="postsShow.php" class="item">Posty</a>
 
         <?php
             if(!is_null($loggedUserName)) {
-                echo "<a class=\"item\" href=\"createPost.php\"\">Dodaj post</a>";
+                echo <<<HTML
+                    <a class="item" href="postForm.php">Dodaj post</a>
+                HTML;
             }
         ?>
 
         <div class="right menu">
             <?php
                 if(is_null($loggedUserName)) {
-                    echo "<a class=\"item\" href=\"createUser.php\">Rejestracja</a>";
-                    echo "<a class=\"item\" href=\"login.php\">Zaloguj</a>";
+                    echo <<<HTML
+                        <a class="item" href="userForm.php">Rejestracja</a>
+                        <a class="item" href="loginForm.php">Zaloguj</a>
+                    HTML;
                 } else {
-                    echo "<span class=\"item\">Zalogowany jako $loggedUserName</span>";
-                    echo "<a class=\"item\" href=\"editUsers.php\">Zarządzaj</a>";
-                    echo "<a class=\"item\" href=\"processLogout.php\">Wyloguj</a>";
+                    echo <<<HTML
+                        <span class="item">Zalogowany jako $loggedUserName</span>
+                        <a class="item" href="usersManagement.php">Zarządzaj</a>
+                        <a class="item" href="logoutProcess.php">Wyloguj</a>
+                    HTML;
                 }
             ?>
         </div>

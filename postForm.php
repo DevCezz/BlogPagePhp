@@ -8,7 +8,7 @@
 <div class="ui main text container">
     <h1 class="ui header textCenter">Dodaj post</h1>
 
-    <form class="ui form" role="form" action="processPost.php" onsubmit="return validateCreatePostForm(this)" method="post">
+    <form class="ui form" role="form" action="postProcess.php" onsubmit="return validateCreatePostForm(this)" method="post">
         <div class="field">
             <label>Tytuł</label>
             <input type="text" name="title" placeholder="Tytuł">

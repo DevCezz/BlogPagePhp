@@ -12,7 +12,7 @@
 
         if (!$result) {
             $errorMessage = "Użytkownik \"$username\" już istnieje w bazie danych. Należy wybrać inną nazwę użytkownika.<br>
-                <a href=\"createUser.php\"> ZAŁÓŻ NOWE KONTO</a>";
+                <a href=\"userForm.php\"> ZAŁÓŻ NOWE KONTO</a>";
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -30,7 +30,9 @@
             if (isset($errorMessage)) {
                 echo $errorMessage;
             } else {
-                echo "Rejestracja użytkownika przebiegła pomyślnie.<br><a href=\"login.php\">ZALOGUJ SIĘ</a>";
+                echo <<<HTML
+                    Rejestracja użytkownika przebiegła pomyślnie.<br><a href="loginForm.php">ZALOGUJ SIĘ</a>
+                HTML;
             }
         ?>
     </p>
