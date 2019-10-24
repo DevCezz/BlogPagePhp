@@ -11,7 +11,7 @@ create table post (
 	`user_id` int not null,
 	`title` varchar(150) not null,
 	`content` text not null,
-	`modification_date` timestamp not null DEFAULT CURRENT_TIMESTAMP,
+	`modification_date` datetime not null DEFAULT NOW(),
 	PRIMARY KEY (`id`),
 	FOREIGN KEY(`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
