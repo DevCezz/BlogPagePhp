@@ -31,12 +31,14 @@
 
                         <?php
                             if(!is_null($loggedUserName)) {
-                                echo <<<HTML
-                                    <div class="sm-t button-right">
-                                        <button class="ui compact red button">Usuń</button>
-                                        <button class="ui compact yellow button">Edytuj</button>
-                                    </div>
-                                HTML;
+                                echo "<div class=\"sm-t button-right\">";
+                                echo    "<form action=\"postProcessDelete.php?id=$id\" method=\"POST\">";
+                                echo        "<input type=\"hidden\" name=\"_method\" value=\"DELETE\" />";
+                                echo        "<button class=\"ui compact red button\">Usuń</button>";
+                                echo    "</form>";
+
+                                echo    "<a href=\"postForm.php?id=$id\" class=\"ui compact yellow button\" name=\"editPost\" value=\"editPost\">Edytuj</a>";
+                                echo "</div>";
                             }
                         ?>
                     </div>

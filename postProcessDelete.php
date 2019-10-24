@@ -3,16 +3,18 @@
 
     require_once('logic/userManager.inc.php');
 
-    $title = isset($_POST['title']) ? $_POST['title'] : '';
-    $content = isset($_POST['content']) ? $_POST['content'] : '';
+    try {    
+        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $_POST['_method'] !== 'DELETE') {
+            throw new Exception('To nie jest żądanie DELETE usunięcia postu.');
+        }
+        $postId = $_GET['id'];
 
-    try {
         $userManager = new UserManager();
 
-        $postId = $userManager->createPost($title, $content, session_id());
+        $result = $userManager->deletePost($postId, session_id());
 
-        if (is_null($postId)) {
-            $errorMessage = "Nie udało się dodać poprawnie postu.";
+        if (!$result) {
+            $errorMessage = "Nie udało się usunąć postu.";
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -31,7 +33,7 @@
                 echo $errorMessage;
             } else {
                 echo <<<HTML
-                    Dodanie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
+                    Usunięcie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
                 HTML;
             }
         ?>

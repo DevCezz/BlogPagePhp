@@ -305,5 +305,33 @@
             $connection->close();
             return $postId;
         }
+
+        public function deletePost($postId, $sessionId) {
+            $connection = DBConn::getConnection();
+
+            try {
+                $loggedUserName = $this->checkIfUserIsLoggedIn($sessionId);
+
+                if(is_null($loggedUserName)) {
+                    throw new Exception("Jesteś niezalogowany, więc nie możesz usunąć postu.");
+                }
+
+                $deletePostQuery = "DELETE FROM `post` WHERE `id`=$postId";
+                $result = $connection->query($deletePostQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+            } catch(Exception $exeption) {
+                if(isset($connection)) {
+                    $connection->close();
+                }
+
+                throw $exeption;
+            }
+
+            $connection->close();
+            return TRUE;
+        }
     }
 ?>

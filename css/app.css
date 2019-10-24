@@ -46,6 +46,13 @@ i.icon {
     text-indent: 3em;
 }
 
+.item .description img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
 .button-right button {
     float: right;
 }
