@@ -28,7 +28,7 @@
             <?php echo $errorMessage; ?>
         </p>
     <?php } else { ?>
-        <table class="ui celled table">
+        <table id="userTable" class="ui celled table">
             <thead>
                 <tr>
                     <th>Nazwa użytkownika</th>
@@ -43,7 +43,7 @@
                         <td><?php echo $users[$id]['email']; ?></td>
                         <td>
                             <?php
-                                echo "<div class=\"sm-t button-right\">";
+                                echo "<div class=\"button-right\">";
                                 echo    "<form action=\"userProcessDelete.php?id=$id\" method=\"POST\">";
                                 echo        "<input type=\"hidden\" name=\"_method\" value=\"DELETE\" />";
                                 echo        "<button class=\"ui compact red button\">Usuń</button>";

@@ -84,6 +84,84 @@
             return TRUE;
         }
 
+        public function getUser($userId) {
+            $connection = DBConn::getConnection();
+
+            $selectUserByIdQuery = "SELECT `user_name`, `email` FROM `user` WHERE `id`=$userId";
+            $result = $connection->query($selectUserByIdQuery);
+
+            if ($result === FALSE) {
+                $connection-close();
+                throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+            }
+            
+            $user = array();
+            if (($row = $result->fetch_assoc()) === NULL) {
+                throw new Exception("Nie znaleziono takiego użytkownika dla id $userId.");
+            } else {
+                $user['user_name'] = $row['user_name'];
+                $user['email'] = $row['email'];
+            }
+
+            $result->close();
+            $connection->close();
+
+            return $user;
+        }
+
+        public function editUser($userId, $userName, $userPassword, $repeatedUserPassword, $userEmail) {
+            if($userName == '' or $userEmail == '') {
+                throw new Exception('Pozostawiono puste pole: nazwa użytkownia lub email.');
+            }
+
+            if(!preg_match('/^\w+$/', $userName)) {
+                throw new Exception('Nazwa użytkownika może się składać tylko ze znaków alfanumerycznych.');
+            }
+
+            if(!preg_match('/^\w+@[a-zA-Z]+\.[a-zA-Z]+$/', $userEmail)) {
+                throw new Exception('Podany adres email jest nieprawidłowy.');
+            }
+
+            if (($userPassword !== '') !== ($repeatedUserPassword !== '')) {
+                throw new Exception('Nie wypełniono jednego z pól dotyczącego hasła.');
+            }
+
+            if(($userPassword !== '') && ($userPassword != $repeatedUserPassword)) {
+                throw new Exception('Podane hasła są różne.');
+            }
+
+            $connection = DBConn::getConnection();
+
+            $checkedUserName = $connection->real_escape_string($userName);
+            $checkedUserEmail = $connection->real_escape_string($userEmail);
+
+            try {
+                if($userPassword !== '') {
+                    $userPasswordMD5 = md5($userPassword);
+
+                    $updateUserWithPasswordQuery = "UPDATE `user` SET `user_name`='$checkedUserName', `password`='$userPasswordMD5', 
+                            `email`='$checkedUserEmail' WHERE `id`=$userId";
+                    $result = $connection->query($updateUserWithPasswordQuery);
+                } else {
+                    $updateUserQuery = "UPDATE `user` SET `user_name`='$checkedUserName', `email`='$checkedUserEmail' WHERE `id`=$userId";
+                    $result = $connection->query($updateUserQuery);
+                }               
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+            } catch(Exception $exeption) {
+                if(isset($connection)) {
+                    $connection->close();
+                }
+
+                throw $exeption;
+            }
+
+            $connection->close();
+            return TRUE;
+        }
+
         private function checkIfUserExists($checkedUserName) {
             $connection = DBConn::getConnection();
 
@@ -244,7 +322,7 @@
             
             $post = array();
             if (($row = $result->fetch_assoc()) === NULL) {
-                throw new Exception("Nie znaleziono takiego id użytkownika dla nazwy użytkownika '$loggedUserName'.");
+                throw new Exception("Nie znaleziono takiego postu dla id $postId.");
             } else {
                 $post['id'] = $row['user_name'];
                 $post['user_name'] = $row['user_name'];

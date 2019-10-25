@@ -60,3 +60,7 @@ i.icon {
 .ui.form textarea {
     resize: none;
 }
+
+#userTable tr th:nth-child(3){
+   width: 25%;
+}

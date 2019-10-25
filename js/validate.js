@@ -28,6 +28,41 @@ function validateCreateUserForm(form) {
     return true;
 }
 
+function validateEditUserForm(form) {
+    var userName = form.userName.value;
+    var password = form.password.value;
+    var repeatedPassword = form.repeatedPassword.value;
+    var email = form.email.value;
+    var errorSpan = document.getElementById("errorMessage");
+
+    if (isEmpty(userName) || isEmpty(email)) {
+        errorSpan.innerHTML = "Pozostawiono puste pola: nazwa użytkowniak lub email!";
+        return false;
+    }
+
+    if (!validUserName(userName)) {
+        errorSpan.innerHTML = "Nazwa użytkownia może składać się tylko ze znaków alfanumerycznych!";
+        return false;
+    }
+
+    if (!validEmail(email)) {
+        errorSpan.innerHTML = "Adres email jest nieprawidłowy!";
+        return false;
+    }
+
+    if (!isEmpty(password) !== !isEmpty(repeatedPassword)) {
+        errorSpan.innerHTML = "Nie wypełniono jednego z pól dotyczących hasła!";
+        return false;
+    }
+
+    if (!isEmpty(password) && password !== repeatedPassword) {
+        errorSpan.innerHTML = "Podane hasła nie pasują do siebie!";
+        return false;
+    }
+
+    return true;
+}
+
 function validateLoginForm(form) {
     var userName = form.userName.value;
     var password = form.password.value;
