@@ -408,5 +408,51 @@
             $connection->close();
             return TRUE;
         }
+
+        public function deleteUser($userId, $sessionId) {
+            $connection = DBConn::getConnection();
+
+            try {
+                $loggedUserName = $this->checkIfUserIsLoggedIn($sessionId);
+
+                if(is_null($loggedUserName)) {
+                    throw new Exception("Jesteś niezalogowany, więc nie możesz usunąć użytkownika.");
+                }
+
+                $selectPostsByUserIdQuery = "SELECT * FROM `post` WHERE `user_id`=$userId";
+                $result = $connection->query($selectPostsByUserIdQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+
+                if (($row = $result->fetch_assoc()) !== NULL) {
+                    throw new Exception("Nie można usunąć użytkownika - ma przypisane do siebie posty.");
+                }
+
+                $deleteUserLogQuery = "DELETE FROM `logged_user` WHERE `user_id`=$userId";
+                $result = $connection->query($deleteUserLogQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+
+                $deleteUserQuery = "DELETE FROM `user` WHERE `id`=$userId";
+                $result = $connection->query($deleteUserQuery);
+
+                if($result === FALSE) {
+                    throw new Exception("Zapytanie do bazy danych nie powiodło się.");
+                }
+            } catch(Exception $exeption) {
+                if(isset($connection)) {
+                    $connection->close();
+                }
+
+                throw $exeption;
+            }
+
+            $connection->close();
+            return TRUE;
+        }
     }
 ?>

@@ -6,9 +6,9 @@
 ?>
 
 <div class="ui main text container">
-    <h1 class="ui header textCenter">Załóż konto</h1>
+    <h1 class="ui header textCenter">Edytuj konto</h1>
 
-    <form class="ui form" role="form" action="userProcessCreate.php" onsubmit="return validateCreateUserForm(this)" method="post">
+    <form class="ui form" role="form" action="userProcess.php" onsubmit="return validateCreateUserForm(this)" method="post">
         <div class="field">
             <label>Nazwa Użytkownika</label>
             <input type="text" name="userName" placeholder="Nazwa Użytkownika">

@@ -42,8 +42,16 @@
                         <td><?php echo $users[$id]['user_name']; ?></td>
                         <td><?php echo $users[$id]['email']; ?></td>
                         <td>
-                            <button class="ui compact red button">Usuń</button>
-                            <button class="ui compact yellow button">Edytuj</button>
+                            <?php
+                                echo "<div class=\"sm-t button-right\">";
+                                echo    "<form action=\"userProcessDelete.php?id=$id\" method=\"POST\">";
+                                echo        "<input type=\"hidden\" name=\"_method\" value=\"DELETE\" />";
+                                echo        "<button class=\"ui compact red button\">Usuń</button>";
+                                echo    "</form>";
+
+                                echo    "<a href=\"userEditForm.php?id=$id\" class=\"ui compact yellow button\" name=\"editPost\" value=\"editPost\">Edytuj</a>";
+                                echo "</div>";
+                            ?>
                         </td>
                     </tr>
                 <?php } ?>

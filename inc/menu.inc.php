@@ -10,10 +10,7 @@
 ?>
 <div class="ui fixed inverted menu">
     <div class="ui container">
-        <div class="header item">
-            <i class="keyboard outline icon"></i> Blog ZAI
-        </div>
-        <a href="/" class="item">Opis projektu</a>
+        <a href="/" class="item"><i class="keyboard outline icon"></i> Blog ZAI</a>
         <a href="postsShow.php" class="item">Posty</a>
 
         <?php if(!is_null($loggedUserName)) { ?>
