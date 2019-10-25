@@ -6,16 +6,19 @@
     try {    
         $postId = isset($_GET['id']) ? $_GET['id'] : '';
 
-        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $_POST['_method'] !== 'DELETE' and $postId === '') {
-            throw new Exception('To nie jest żądanie DELETE usunięcia postu.');
+        if($_SERVER['REQUEST_METHOD'] !== 'PUT' and $_POST['_method'] !== 'PUT' and $postId === '') {
+            throw new Exception('To nie jest żądanie PUT edycji postu.');
         }
+        
+        $title = isset($_POST['title']) ? $_POST['title'] : '';
+        $content = isset($_POST['content']) ? $_POST['content'] : '';
         
         $userManager = new UserManager();
 
-        $result = $userManager->deletePost($postId, session_id());
+        $result = $userManager->editPost($postId, $title, $content, session_id());
 
         if (!$result) {
-            $errorMessage = "Nie udało się usunąć postu.";
+            $errorMessage = "Nie udało się edytować postu.";
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -32,7 +35,7 @@
         <?php if (isset($errorMessage)) {
                 echo $errorMessage;
             } else { ?>
-                Usunięcie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
+                Edycja postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
         <?php } ?>
     </p>
 
