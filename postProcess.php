@@ -26,15 +26,11 @@
 
 <div class="ui main text container">
     <p class="textCenter">
-        <?php
-            if (isset($errorMessage)) {
+        <?php if (isset($errorMessage)) {
                 echo $errorMessage;
-            } else {
-                echo <<<HTML
-                    Dodanie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
-                HTML;
-            }
-        ?>
+            } else { ?>
+                Dodanie postu przebiegło pomyślnie.<br><a href="postsShow.php">Zobacz wszystkie posty</a>
+        <?php } ?>
     </p>
 
     <?php

@@ -1,8 +1,21 @@
 <?php
     session_start();
 
+    require_once('logic/userManager.inc.php');
+    require_once('logic/redirect.inc.php');
+
     require('inc/header.inc.php');
     require('inc/menu.inc.php');
+
+    try {
+        $userManager = new UserManager();
+        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
+        if(is_null($loggedUserName)) {
+            RedirectHandler::redirect('/', false);
+        }
+    } catch (Exception $exception) {
+        $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
+    }
 ?>
 
 <div class="ui main text container">

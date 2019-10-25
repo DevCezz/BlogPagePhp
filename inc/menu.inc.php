@@ -10,33 +10,25 @@
 ?>
 <div class="ui fixed inverted menu">
     <div class="ui container">
-        <div class="header item"><i class="keyboard outline icon"></i> Blog ZAI</div>
+        <div class="header item">
+            <i class="keyboard outline icon"></i> Blog ZAI
+        </div>
         <a href="/" class="item">Opis projektu</a>
         <a href="postsShow.php" class="item">Posty</a>
 
-        <?php
-            if(!is_null($loggedUserName)) {
-                echo <<<HTML
-                    <a class="item" href="postForm.php">Dodaj post</a>
-                HTML;
-            }
-        ?>
+        <?php if(!is_null($loggedUserName)) { ?>
+            <a class="item" href="postForm.php">Dodaj post</a>
+        <?php } ?>
 
         <div class="right menu">
-            <?php
-                if(is_null($loggedUserName)) {
-                    echo <<<HTML
-                        <a class="item" href="userForm.php">Rejestracja</a>
-                        <a class="item" href="loginForm.php">Zaloguj</a>
-                    HTML;
-                } else {
-                    echo <<<HTML
-                        <span class="item">Zalogowany jako $loggedUserName</span>
-                        <a class="item" href="usersManagement.php">Zarządzaj</a>
-                        <a class="item" href="logoutProcess.php">Wyloguj</a>
-                    HTML;
-                }
-            ?>
+            <?php if(is_null($loggedUserName)) { ?>
+                <a class="item" href="userForm.php">Rejestracja</a>
+                <a class="item" href="loginForm.php">Zaloguj</a>
+            <?php } else { ?>
+                <span class="item">Zalogowany jako <?php echo $loggedUserName ?></span>
+                <a class="item" href="usersManagement.php">Zarządzaj</a>
+                <a class="item" href="logoutProcess.php">Wyloguj</a>
+            <?php } ?>
         </div>
     </div>
 </div>

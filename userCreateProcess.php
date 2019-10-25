@@ -26,15 +26,11 @@
 
 <div class="ui main text container">
     <p class="textCenter">
-        <?php
-            if (isset($errorMessage)) {
+        <?php if (isset($errorMessage)) {
                 echo $errorMessage;
-            } else {
-                echo <<<HTML
-                    Rejestracja użytkownika przebiegła pomyślnie.<br><a href="loginForm.php">ZALOGUJ SIĘ</a>
-                HTML;
-            }
-        ?>
+            } else { ?>
+                Rejestracja użytkownika przebiegła pomyślnie.<br><a href="loginForm.php">ZALOGUJ SIĘ</a>
+        <?php } ?>
     </p>
 
     <?php
