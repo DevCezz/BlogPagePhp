@@ -1,21 +1,18 @@
 <?php
     session_start();
 
-    require_once('logic/userManager.inc.php');
     require_once('logic/redirect.inc.php');
+    require_once('logic/userManager.inc.php');
 
     require('inc/header.inc.php');
     require('inc/menu.inc.php');
 
     try {
-        $userManager = new UserManager();
-        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
-        if(is_null($loggedUserName)) {
-            RedirectHandler::redirect('/', false);
-        }
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
 
         $userId = isset($_GET['id']) ? $_GET['id'] : '';
 
+        $userManager = new UserManager();
         if($userId !== '') {
             $user = $userManager->getUser($userId);
         }

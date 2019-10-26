@@ -1,12 +1,16 @@
 <?php
     session_start();
 
+    require_once('logic/redirect.inc.php');
     require_once('logic/userManager.inc.php');
 
     try {    
-        $userId = isset($_GET['id']) ? $_GET['id'] : '';
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
 
-        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $_POST['_method'] !== 'DELETE' and $userId === '') {
+        $userId = isset($_GET['id']) ? $_GET['id'] : '';
+        $method = isset($_GET['_method']) ? $_GET['_method'] : '';
+
+        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $method !== 'DELETE' and $userId === '') {
             throw new Exception('To nie jest żądanie DELETE usunięcia użytkownika.');
         }
         

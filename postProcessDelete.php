@@ -1,18 +1,22 @@
 <?php
     session_start();
 
-    require_once('logic/userManager.inc.php');
+    require_once('logic/redirect.inc.php');
+    require_once('logic/postManager.inc.php');
 
     try {    
-        $postId = isset($_GET['id']) ? $_GET['id'] : '';
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
 
-        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $_POST['_method'] !== 'DELETE' and $postId === '') {
+        $postId = isset($_GET['id']) ? $_GET['id'] : '';
+        $method = isset($_GET['_method']) ? $_GET['_method'] : '';
+
+        if($_SERVER['REQUEST_METHOD'] !== 'DELETE' and $method !== 'DELETE' and $postId === '') {
             throw new Exception('To nie jest żądanie DELETE usunięcia postu.');
         }
         
-        $userManager = new UserManager();
+        $postManager = new PostManager();
 
-        $result = $userManager->deletePost($postId, session_id());
+        $result = $postManager->deletePost($postId, session_id());
 
         if (!$result) {
             $errorMessage = "Nie udało się usunąć postu.";

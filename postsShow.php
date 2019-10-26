@@ -4,12 +4,14 @@
     require('inc/header.inc.php');
     require('inc/menu.inc.php');
 
+    require_once('logic/postManager.inc.php');
     require_once('logic/userManager.inc.php');
 
     try {
-        $userManager = new UserManager();
-        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
-        $posts = $userManager->getAllPosts();
+        $loggedUserName = UserManager::checkIfUserIsLoggedIn(session_id());
+
+        $postManager = new PostManager();
+        $posts = $postManager->getAllPosts();
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
     }

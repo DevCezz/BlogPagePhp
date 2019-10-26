@@ -76,6 +76,19 @@ function validateLoginForm(form) {
     return true;
 }
 
+function validatePostForm(form) {
+    var title = form.title.value;
+    var content = form.content.value;
+    var errorSpan = document.getElementById("errorMessage");
+
+    if (isEmpty(title) || isEmpty(content)) {
+        errorSpan.innerHTML = "Nie wypełniono wszystkich pól!";
+        return false;
+    }
+
+    return true;
+}
+
 function isEmpty(string) {
     return (!string || 0 === string.length);
 }

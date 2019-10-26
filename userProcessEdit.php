@@ -1,20 +1,24 @@
 <?php
     session_start();
 
+    require_once('logic/redirect.inc.php');
     require_once('logic/userManager.inc.php');
 
-    $userId = isset($_POST['id']) ? $_POST['id'] : '';
-
-    if($_SERVER['REQUEST_METHOD'] !== 'PUT' and $_POST['_method'] !== 'PUT' and $postId === '') {
-        throw new Exception('To nie jest żądanie PUT edycji użytkownika.');
-    }
-
-    $username = isset($_POST['userName']) ? $_POST['userName'] : '';
-    $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
-    $repeatedUserPassword = isset($_POST['repeatedPassword']) ? $_POST['repeatedPassword'] : '';
-    $userEmail = isset($_POST['email']) ? $_POST['email'] : '';
-
     try {
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
+
+        $userId = isset($_POST['id']) ? $_POST['id'] : '';
+        $method = isset($_POST['_method']) ? $_POST['_method'] : '';
+        
+        if($_SERVER['REQUEST_METHOD'] !== 'PUT' and $method !== 'PUT' and $userId === '') {
+            throw new Exception('To nie jest żądanie PUT edycji użytkownika.');
+        }
+
+        $username = isset($_POST['userName']) ? $_POST['userName'] : '';
+        $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
+        $repeatedUserPassword = isset($_POST['repeatedPassword']) ? $_POST['repeatedPassword'] : '';
+        $userEmail = isset($_POST['email']) ? $_POST['email'] : '';
+    
         $userManager = new UserManager();
         $result = $userManager->editUser($userId, $username, $userPassword, $repeatedUserPassword, $userEmail);
 

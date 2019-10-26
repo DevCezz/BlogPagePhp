@@ -1,23 +1,20 @@
 <?php
     session_start();
 
-    require_once('logic/userManager.inc.php');
     require_once('logic/redirect.inc.php');
+    require_once('logic/postManager.inc.php');
 
     require('inc/header.inc.php');
     require('inc/menu.inc.php');
 
     try {
-        $userManager = new UserManager();
-        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
-        if(is_null($loggedUserName)) {
-            RedirectHandler::redirect('/', false);
-        }
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
 
         $postId = isset($_GET['id']) ? $_GET['id'] : '';
 
+        $postManager = new PostManager();
         if($postId !== '') {
-            $post = $userManager->getPost($postId);
+            $post = $postManager->getPost($postId);
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
@@ -31,12 +28,12 @@
         <?php if($postId === '') { ?>
             <h1 class="ui header textCenter">Dodaj post</h1>
         <?php } else { ?>
-            <h1 class="ui header textCenter">Edytuj post <?php echo $post['title']; ?></h1>
+            <h1 class="ui header textCenter">Edytuj post: '<?php echo $post['title']; ?>'</h1>
             <h3 class="ui header textCenter"><?php echo $post['user_name'] . ' | ' . $post['modification_date']; ?></h3>
         <?php } ?>
 
-        <form class="ui form" role="form" action="<?php if(is_null($postId)) { echo 'postProcess.php'; } else { echo 'postProcessEdit.php?id=' . $postId; }?>" 
-                onsubmit="return validateCreatePostForm(this)" method="post">
+        <form class="ui form" role="form" action="<?php if($postId === '') { echo 'postProcess.php'; } else { echo 'postProcessEdit.php?id=' . $postId; }?>" 
+                onsubmit="return validatePostForm(this)" method="post">
             <?php if($postId !== '') { ?>
                 <input type="hidden" name="_method" value="PUT" />
             <?php }?>
@@ -53,7 +50,7 @@
             <div class="textCenter errorDiv">
                 <span id="errorMessage"></span>
             </div>
-            <button class="ui violet basic button fullWidth" type="submit"><?php if($postId === '') { echo 'Utwórz post'; } else { echo 'Edytuj post'; }?></button>
+            <button class="ui violet basic button fullWidth" type="submit">Zatwierdź</button>
         </form>
     <?php } ?>
 

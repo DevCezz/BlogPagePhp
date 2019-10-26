@@ -1,15 +1,17 @@
 <?php
     session_start();
 
-    require_once('logic/userManager.inc.php');
+    require_once('logic/redirect.inc.php');
+    require_once('logic/postManager.inc.php');
 
     $title = isset($_POST['title']) ? $_POST['title'] : '';
     $content = isset($_POST['content']) ? $_POST['content'] : '';
 
     try {
-        $userManager = new UserManager();
+        RedirectHandler::checkIfUserIsLoggedIn(session_id());
 
-        $postId = $userManager->createPost($title, $content, session_id());
+        $postManager = new PostManager();
+        $postId = $postManager->createPost($title, $content, session_id());
 
         if (is_null($postId)) {
             $errorMessage = "Nie udało się dodać poprawnie postu.";

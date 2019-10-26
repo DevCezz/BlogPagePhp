@@ -2,15 +2,14 @@
     require_once('logic/userManager.inc.php');
 
     try {
-        $userManager = new UserManager();
-        $loggedUserName = $userManager->checkIfUserIsLoggedIn(session_id());
+        $loggedUserName = UserManager::checkIfUserIsLoggedIn(session_id());
     } catch (Exception $e) {
         $error_message = "Przepraszamy, ale wystąpił błąd na stronie.<br>Informacja o błędzie:<br> " . $e->getMessage();
     }
 ?>
 <div class="ui fixed inverted menu">
     <div class="ui container">
-        <a href="/" class="item"><i class="keyboard outline icon"></i> Blog ZAI</a>
+        <a href="index.php" class="item"><i class="keyboard outline icon"></i> Blog ZAI</a>
         <a href="postsShow.php" class="item">Posty</a>
 
         <?php if(!is_null($loggedUserName)) { ?>
