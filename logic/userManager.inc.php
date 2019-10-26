@@ -240,7 +240,7 @@
 
         public function login($userName, $userPassword) {
             if($userName == '' or $userPassword == '') {
-                throw new Exception('Podano błędne dane do logowania.');
+                throw new Exception('Nie podano żadnych danych do logowania.');
             }
 
             try {

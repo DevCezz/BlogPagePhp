@@ -11,7 +11,7 @@
         $result = $userManager->login($username, $userPassword);
 
         if (!$result) {
-            $errorMessage = "Podane dane są niepoprawne.";
+            $errorMessage = "Podane dane są niepoprawne lub nie istnieje taki użytkownik w systemie.";
         }
     } catch (Exception $exception) {
         $errorMessage = "Wystąpił wewnętrzny błąd serwera. Przepraszamy.<br>Informacja o błędzie: " . $exception->getMessage();
