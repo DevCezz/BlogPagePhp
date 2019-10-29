@@ -8,6 +8,9 @@
                 throw new Exception('Wszystkie dane muszą być wypełnione.');
             }
 
+            $title = self::eraseScriptTags($title);
+            $content = self::eraseScriptTags($content);
+
             try {
                 $connection = DBConn::getConnection();
 
@@ -123,6 +126,9 @@
                 throw new Exception('Wszystkie dane muszą być wypełnione.');
             }
 
+            $title = self::eraseScriptTags($title);
+            $content = self::eraseScriptTags($content);
+
             try {
                 $connection = DBConn::getConnection();
 
@@ -178,6 +184,12 @@
 
             $connection->close();
             return TRUE;
+        }
+
+        private function eraseScriptTags($content) {
+            $content = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $content);
+
+            return $content;
         }
     }
 ?>

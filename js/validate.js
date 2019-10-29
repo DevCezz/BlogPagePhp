@@ -86,6 +86,11 @@ function validatePostForm(form) {
         return false;
     }
 
+    if (hasSriptTag(title) || hasSriptTag(content)) {
+        errorSpan.innerHTML = "Usuń 'script tags' z pól!";
+        return false;
+    }
+
     return true;
 }
 
@@ -101,4 +106,9 @@ function validUserName(userName) {
 function validEmail(mail) {
     regex = /^\w+@[a-zA-Z]+\.[a-zA-Z]+$/;
     return regex.test(mail);
+}
+
+function hasSriptTag(content) {
+    var scriptTagRegex = /<script(.*?)>(.*?)<\/script>/gi;
+    return scriptTagRegex.test(content);
 }
