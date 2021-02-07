@@ -25,7 +25,7 @@ Uwierzytelnianie użytkowników zostało stworzone **bez korzystania z gotowych 
 stronę. Po zalogowaniu użytkownik ma możliwość **dodania, edycji bądź usuwania wpisów**. Może także edytować i usuwać 
 istniejących użytkowników w systemie. Odwiedzający stronę bez logowania może tylko przeglądać istniejące wpisy.
 
-W celu uruchomienia projektu trzeba utworzyć bazę danych MySQL, następnie wykonać skrypt *sql/database.sql*.
+W celu uruchomienia projektu trzeba utworzyć bazę danych MySQL, następnie wykonać skrypt */sql/database.sql*.
 Dodatkowo dane do nogowania znajdują się w *logic/dbConn.inc.php*:
 
     private static $host = <host>;
